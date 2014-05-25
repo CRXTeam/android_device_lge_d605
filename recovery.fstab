@@ -1,0 +1,7 @@
+/dev/block/mmcblk0p7	/boot		emmc		defaults	defaults
+/dev/block/mmcblk0p17	/recovery	emmc		defaults	defaults
+/dev/block/mmcblk0p14	/cache		ext4		defaults	defaults
+/dev/block/mmcblk0p13	/system		ext4		defaults	defaults
+/dev/block/mmcblk0p15	/data		ext4		defaults	defaults
+/dev/null		/sdcard		datamedia	defaults	defaults
+/dev/block/mmcblk1p1	/external_sd	auto		defaults	defaults
