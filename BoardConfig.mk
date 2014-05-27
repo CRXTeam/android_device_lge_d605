@@ -30,7 +30,7 @@ BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x02000000
 BOARD_KERNEL_PAGESIZE := 2048
 
 # Try to build the kernel
-TARGET_KERNEL_CUSTOM_TOOLCHAIN := arm-eabi-4.7
+# TARGET_KERNEL_CUSTOM_TOOLCHAIN := arm-eabi-4.7
 TARGET_KERNEL_SOURCE := kernel/lge/d605
 TARGET_KERNEL_CONFIG := l9ii_open_eu_defconfig
 
