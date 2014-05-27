@@ -6,16 +6,30 @@ on early-init
     mount debugfs debugfs /sys/kernel/debug
 
 on init
-    mkdir /mnt/media_rw/sdcard0 0700 media_rw media_rw
-    mkdir /storage/sdcard0 0700 root root
+    # See storage config details at http://source.android.com/tech/storage/
+    mkdir /mnt/shell/emulated 0700 shell shell
+    mkdir /storage/emulated 0555 root root
+    mkdir /storage/emulated/legacy 0555 root root
+    mkdir /mnt/media_rw/sdcard1 0755 media_rw media_rw
+    mkdir /storage/sdcard1 0755 root root
 
-    export EXTERNAL_STORAGE /storage/sdcard0
+    export EXTERNAL_STORAGE /storage/emulated/legacy
+    export SECONDARY_STORAGE /storage/sdcard1
+    export EMULATED_STORAGE_SOURCE /mnt/shell/emulated
+    export EMULATED_STORAGE_TARGET /storage/emulated
+
+    # Support legacy paths
+    symlink /storage/emulated/legacy /sdcard
+    symlink /storage/emulated/legacy /mnt/sdcard
+    symlink /storage/emulated/legacy /storage/sdcard0
+    symlink /storage/sdcard1 /external_sd
+    symlink /storage/sdcard1 /mnt/external_sd
 
     # Set permissions for persist partition
     mkdir /persist 0771 system system
 
-   setprop ro.ssbd.session /dev/block/platform/msm_sdcc.1/by-name/eksst
-   setprop ro.ssbd.offset 50
+    setprop ro.ssbd.session /dev/block/platform/msm_sdcc.1/by-name/eksst
+    setprop ro.ssbd.offset 50
 
     # Set permissions for persist partition
     mkdir /persist 0771 system system
@@ -50,6 +64,8 @@ on fs
     wait /dev/block/platform/msm_sdcc.1/by-name/modem
     mount vfat /dev/block/platform/msm_sdcc.1/by-name/modem /firmware ro shortname=lower,uid=1000,gid=1000,dmask=227,fmask=337
 
+	setprop ro.crypto.fuse_sdcard true
+	
 on early-boot
     # set RLIMIT_MEMLOCK to 64MB
     setrlimit 8 67108864 67108864
@@ -228,6 +244,26 @@ on boot
 
     setprop bluetooth.pan true
     setprop service.bt.support.busytone true
+	
+	service sdcard /system/bin/sdcard -u 1023 -g 1023 -l /data/media /mnt/shell/emulated
+		class late_start
+		disabled
+
+	service fuse_sdcard1 /system/bin/sdcard -u 1023 -g 1023 -w 1023 -d /mnt/media_rw/sdcard1 /storage/sdcard1
+		class late_start
+		disabled
+
+on property:ro.fuse_sdcard=true
+	start sdcard
+
+	# Binding fuse mount point to /storage/emulated/legacy
+on property:init.svc.sdcard=running
+	wait /mnt/shell/emulated/0
+	mount none /mnt/shell/emulated/0 /storage/emulated/legacy bind
+
+# This will make sure that sdcard service starts as late_start.
+on nonencrypted
+	setprop ro.fuse_sdcard ${persist.fuse_sdcard}
 
 on post-fs
     start sreadahead
@@ -267,7 +303,7 @@ on post-fs-data
     chown system system /sys/devices/virtual/input/lge_touch/lpwg_notify
 
     # we will remap this as /mnt/sdcard with the sdcard fuse tool
-    mkdir /data/media 0770 media_rw media_rw
+    mkdir /data/media 0775 media_rw media_rw
     chown media_rw media_rw /data/media
 
     mkdir /data/misc/bluetooth 0770 bluetooth bluetooth
@@ -337,7 +373,7 @@ on post-fs-data
 
     setprop vold.post_fs_data_done 1
     #Set default sdcard fs type
-    setprop vold.sdcard_fs_type none
+    # setprop vold.sdcard_fs_type none
 
     restorecon_check_recursive /data
 
@@ -447,7 +483,6 @@ service qcom-c_main-sh /system/bin/sh /init.class_main.sh
     oneshot
 
 on property:vold.decrypt=trigger_restart_framework
-    setprop ro.fuse_sdcard ${persist.fuse_sdcard}
     start qcom-c_main-sh
     start config_bluetooth
 
@@ -895,10 +930,6 @@ service ims_rtp_daemon /system/bin/ims_rtp_daemon
 
 on property:sys.ims.DATA_DAEMON_STATUS=1
     start ims_rtp_daemon
-
-service fuse_sdcard0 /system/bin/sdcard -u 1023 -g 1023 -d /mnt/media_rw/sdcard0 /storage/sdcard0
-    class late_start
-    disabled
 
 service mtsd /system/bin/mtsd
     class late_start
