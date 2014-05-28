@@ -3,6 +3,9 @@ USE_CAMERA_STUB := true
 # inherit from the proprietary version
 -include vendor/lge/d605/BoardConfigVendor.mk
 
+TARGET_BOARD_PLATFORM_GPU := qcom-adreno305
+TARGET_ARCH_VARIANT_CPU := cortex-a9
+
 TARGET_GLOBAL_CFLAGS += -mfpu=neon -mfloat-abi=softfp
 TARGET_GLOBAL_CPPFLAGS += -mfpu=neon -mfloat-abi=softfp
 TARGET_CPU_ABI := armeabi-v7a
@@ -11,6 +14,7 @@ TARGET_CPU_SMP := true
 TARGET_ARCH := arm
 TARGET_ARCH_VARIANT := armv7-a-neon
 TARGET_CPU_VARIANT := krait
+
 
 # Krait optimizations
 TARGET_USE_KRAIT_BIONIC_OPTIMIZATION := true
