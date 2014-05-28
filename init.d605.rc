@@ -255,6 +255,7 @@ on boot
 
 on property:ro.fuse_sdcard=true
 	start sdcard
+	start fuse_sdcard1
 
 	# Binding fuse mount point to /storage/emulated/legacy
 on property:init.svc.sdcard=running
