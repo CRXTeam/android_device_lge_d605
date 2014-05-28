@@ -484,6 +484,7 @@ service qcom-c_main-sh /system/bin/sh /init.class_main.sh
     oneshot
 
 on property:vold.decrypt=trigger_restart_framework
+	setprop ro.fuse_sdcard ${persist.fuse_sdcard}
     start qcom-c_main-sh
     start config_bluetooth
 
