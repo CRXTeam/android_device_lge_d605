@@ -1,7 +1,7 @@
 [
   {
     "remote": "CRX",
-    "revision": "kitkat",
+    "revision": "cm-11.0",
     "repository": "android_kernel_lge_d605",
     "target_path": "kernel/lge/d605"
   },
