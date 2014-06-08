@@ -112,7 +112,3 @@ ENABLE_WEBGL := true
 
 USE_SET_METADATA := false
 SKIP_SET_METADATA := true
-
-# External apps on SD
-TARGET_EXTERNAL_APPS = sdcard1
-
