@@ -22,9 +22,9 @@ PRODUCT_AAPT_PREF_CONFIG := xhdpi
 
 # Scripts
 PRODUCT_COPY_FILES += \
-        $(LOCAL_PATH)/init.d605.rc:root/init.d605.rc \
-    	$(LOCAL_PATH)/ueventd.d605.rc:root/ueventd.d605.rc \
-    	$(LOCAL_PATH)/fstab.d605:root/fstab.d605 \
+    $(LOCAL_PATH)/init.d605.rc:root/init.d605.rc \
+    $(LOCAL_PATH)/ueventd.d605.rc:root/ueventd.d605.rc \
+    $(LOCAL_PATH)/fstab.d605:root/fstab.d605 \
 	$(LOCAL_PATH)/init.class_main.sh:root/init.class_main.sh \
 	$(LOCAL_PATH)/init.engdo.class_core.sh:root/init.engdo.class_core.sh \
 	$(LOCAL_PATH)/init.engdo.cmm.usb.sh:root/init.engdo.cmm.usb.sh \
@@ -101,7 +101,7 @@ PRODUCT_COPY_FILES += \
 
 # Filesystem management tools
 PRODUCT_PACKAGES += \
-        e2fsck
+	e2fsck
 
 PRODUCT_PACKAGES += \
 	hcitool \
@@ -109,12 +109,12 @@ PRODUCT_PACKAGES += \
 	hwaddrs
 
 PRODUCT_PACKAGES += \
-        libgenlock \
-        liboverlay \
+	libgenlock \
+	liboverlay \
 	libmemalloc \
-        hwcomposer.msm8960 \
-        gralloc.msm8960 \
-        copybit.msm8960
+	hwcomposer.msm8960 \
+	gralloc.msm8960 \
+	copybit.msm8960
 
 # OMX
 PRODUCT_PACKAGES += \
@@ -170,3 +170,9 @@ PRODUCT_BUILD_PROP_OVERRIDES += BUILD_UTC_DATE=0
 PRODUCT_NAME := full_d605
 PRODUCT_DEVICE := d605
 
+# Overlay camera libs...
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/prebuilt/lib/libcamera_client.so:system/lib/libcamera_client.so \
+	$(LOCAL_PATH)/prebuilt/lib/libcamera_metadata.so:system/lib/libcamera_metadata.so \
+	$(LOCAL_PATH)/prebuilt/lib/libcameraservice.so:system/lib/libcameraservice.so \
+	
