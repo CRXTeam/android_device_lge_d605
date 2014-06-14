@@ -44,6 +44,8 @@ on init
 on fs
     mount_all fstab.d605
 
+	swapon_all fstab.d605
+	
     exec /system/bin/tune2fs -u system -r 10240 /dev/block/platform/msm_sdcc.1/by-name/userdata
 
     mkdir /sns 0755 system system
@@ -191,6 +193,9 @@ on boot
     # connections on high-throughput links get dropped when
     # an ack packet comes out of order
     write /proc/sys/net/netfilter/nf_conntrack_tcp_be_liberal 1
+	
+	#Zram
+	write /proc/sys/vm/page-cluster 0
 
     start imsqmidaemon
 
