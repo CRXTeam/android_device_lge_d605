@@ -10,5 +10,11 @@
     "revision": "cm-11.0",
     "repository": "proprietary_vendor_lge",
     "target_path": "vendor/lge"
-  }
+  },
+  {
+    "remote": "CRX",
+    "revision": "kitkat",
+    "repository": "android_device_lge_d605",
+    "target_path": "device/lge/d605"
+  }  
  ]
