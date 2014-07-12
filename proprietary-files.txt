@@ -153,7 +153,6 @@ lib/libxml2.so
 lib/libcnefeatureconfig.so
 lib/libcneapiclient.so
 lib/libdrmfs.so
-lib/libtime_genoff.so
 
 # Bin
 bin/qmuxd
