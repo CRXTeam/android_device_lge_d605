@@ -1,8 +1,8 @@
 [
   {
-    "remote": "CRX",
-    "revision": "cm-11.0_staging",
-    "repository": "android_kernel_lge_d605",
+    "remote": "github",
+    "revision": "cm-11.0",
+    "repository": "Varcain/android_kernel_lge_d605",
     "target_path": "kernel/lge/d605"
   },
   {
